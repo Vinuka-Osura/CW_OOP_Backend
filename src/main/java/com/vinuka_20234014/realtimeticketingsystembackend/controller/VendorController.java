@@ -20,7 +20,7 @@ public class VendorController {
         return "Vendor " + vendorId + " started.";
     }
 
-    @DeleteMapping("/stop/{vendorId}")
+    @PostMapping("/stop/{vendorId}")
     public String stopVendor(@PathVariable int vendorId) {
         vendorService.stopVendorById(vendorId);
         return "Vendor " + vendorId + " stopped.";

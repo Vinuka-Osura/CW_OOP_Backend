@@ -11,7 +11,4 @@ public interface CommonService {
 
     List<User> getAllVendors();
 
-    //Event getEventById(int id);
-
-
 }

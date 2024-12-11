@@ -25,7 +25,7 @@ public class Customer implements Runnable {
     public void run() {
         while (running) {
             try {
-                boolean success = ticketPool.removeTickets(eventId, purchaseRate);
+                boolean success = ticketPool.removeTickets(eventId, purchaseRate, customerId);
                 if (success) {
                     System.out.println("Customer " + customerId + " purchased " + purchaseRate + " tickets for Event ID: " + eventId);
                 } else {

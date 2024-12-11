@@ -25,7 +25,7 @@ public class Vendor implements Runnable {
     public void run() {
         while (running) {
             try {
-                ticketPool.addTickets(eventId, releaseRate);
+                ticketPool.addTickets(eventId, releaseRate, vendorId);
                 System.out.println("Vendor " + vendorId + " added " + releaseRate + " tickets for Event ID: " + eventId);
                 Thread.sleep(2000); // Simulate time interval between releases
             } catch (InterruptedException e) {

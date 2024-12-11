@@ -40,7 +40,7 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public void startVendor(int vendorId, int eventId, int releaseRate) {
 
-        Event event = eventRepository.findById(eventId)
+        eventRepository.findById(eventId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event ID not found"));
 
         SystemConfiguration config = systemConfigurationRepository.findAll().stream().findFirst()
@@ -53,9 +53,11 @@ public class VendorServiceImpl implements VendorService {
         Vendor vendor = new Vendor(vendorId, ticketPool, eventId, releaseRate);
         Thread thread = new Thread(() -> {
             while (vendor.isRunning()) {
-                ticketPool.addTickets(eventId, releaseRate);
-                logTransaction(vendorId, eventId, "Vendor", releaseRate); // Log transaction
-                updateVendorTickets(vendorId, releaseRate); // Update vendor's ticket count
+                ticketPool.addTickets(eventId, releaseRate, vendorId);
+                updateEventTicketCount(eventId, releaseRate);
+                updateVendorTickets(vendorId, releaseRate);
+                logTransaction(vendorId, eventId, "Vendor", releaseRate);
+
                 try {
                     Thread.sleep(3000); // 3-second interval
                 } catch (InterruptedException e) {
@@ -106,7 +108,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public void stopAllVendors() {
-        // Stop all threads
+
         vendors.forEach(Vendor::stop);
         vendors.clear();
         vendorThreads.forEach(thread -> {
@@ -137,5 +139,12 @@ public class VendorServiceImpl implements VendorService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vendor ID not found"));
         actVendor.setTicketCount(actVendor.getTicketCount() + ticketCount);
         vendorRepository.save(actVendor);
+    }
+
+    private void updateEventTicketCount(int eventId, int ticketCount) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event ID not found"));
+        event.setTicketCount(event.getTicketCount() + ticketCount);
+        eventRepository.save(event);
     }
 }

@@ -25,7 +25,6 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
     }
 
-
     @Override
     public Map<String, String> loginUser(String username, String password) {
         User user = userRepository.findByUsername(username)

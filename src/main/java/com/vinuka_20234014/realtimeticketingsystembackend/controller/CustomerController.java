@@ -20,7 +20,7 @@ public class CustomerController {
         return "Customer " + customerId + " started.";
     }
 
-    @DeleteMapping("/stop/{customerId}")
+    @PostMapping("/stop/{customerId}")
     public String stopCustomer(@PathVariable int customerId) {
         customerService.stopCustomerById(customerId);
         return "Customer " + customerId + " stopped.";

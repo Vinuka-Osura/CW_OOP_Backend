@@ -31,7 +31,7 @@ public class TicketPool {
         return config.getMaxTicketCapacity();
     }
 
-    public void addTickets(int eventId, int quantity) {
+    public void addTickets(int eventId, int quantity, int vendorId) {
         lock.lock();
         try {
             int maxCapacity = getMaxTicketCapacity();
@@ -40,7 +40,7 @@ public class TicketPool {
                 ticketsAvailable.await(); // Wait until tickets are available
             }
             ticketPool.merge(eventId, quantity, Integer::sum);
-            System.out.println("Added " + quantity + " tickets for Event ID: " + eventId);
+            System.out.println("Vendor " + vendorId + " Added " + quantity + " tickets for Event ID: " + eventId);
             ticketsAvailable.signalAll(); // Notify waiting threads
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -50,7 +50,7 @@ public class TicketPool {
         }
     }
 
-    public boolean removeTickets(int eventId, int quantity) {
+    public boolean removeTickets(int eventId, int quantity, int customerId) {
         lock.lock();
         try {
             while (ticketPool.getOrDefault(eventId, 0) < quantity) {
@@ -58,7 +58,7 @@ public class TicketPool {
                 ticketsAvailable.await(); // Wait until tickets are available
             }
             ticketPool.put(eventId, ticketPool.get(eventId) - quantity);
-            System.out.println("Removed " + quantity + " tickets for Event ID: " + eventId);
+            System.out.println("Vendor "+ customerId +" purchased " + quantity + " tickets for Event ID: " + eventId);
             return true;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

@@ -31,4 +31,6 @@ public class Transaction {
 
     @Column(nullable = false)
     private LocalDateTime timestamp; // Transaction time
+
+    //private String transactionType;
 }
