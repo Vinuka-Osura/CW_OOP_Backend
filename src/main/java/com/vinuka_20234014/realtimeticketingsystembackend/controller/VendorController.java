@@ -1,5 +1,6 @@
 package com.vinuka_20234014.realtimeticketingsystembackend.controller;
 
+import com.vinuka_20234014.realtimeticketingsystembackend.entity.ActVendors;
 import org.springframework.web.bind.annotation.*;
 import com.vinuka_20234014.realtimeticketingsystembackend.service.impl.VendorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class VendorController {
         return "Vendor " + vendorId + " started.";
     }
 
-    @PostMapping("/stop/{vendorId}")
-    public String stopVendor(@PathVariable int vendorId) {
+    @PostMapping("/stop")
+    public String stopVendor(@RequestParam int vendorId) {
         vendorService.stopVendorById(vendorId);
         return "Vendor " + vendorId + " stopped.";
     }
@@ -33,8 +34,8 @@ public class VendorController {
     }
 
     @GetMapping("/list")
-    public List<Integer> listActiveVendors() {
-        return vendorService.getActiveVendorIds();
+    public List<ActVendors> listActiveVendors() {
+        return vendorService.getActiveVendors();
     }
 }
 

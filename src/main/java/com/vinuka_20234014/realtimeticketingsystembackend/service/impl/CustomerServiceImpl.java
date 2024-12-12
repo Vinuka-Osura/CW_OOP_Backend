@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -84,17 +85,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void stopCustomerById(int customerId) {
-        // Find the customer in ActCustomers table
+
         ActCustomers actCustomer = customerRepository.findByCustomerId(customerId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer ID not found"));
 
-        // Stop the customer thread
         customers.stream()
                 .filter(customer -> customer.getCustomerId() == customerId)
                 .findFirst()
                 .ifPresent(Customer::stop);
 
-        // Mark the customer as inactive in the database
         actCustomer.setActive(false);
         customerRepository.save(actCustomer);
 
@@ -124,11 +123,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Integer> getActiveCustomerIds() {
+    public List<ActCustomers> getActiveCustomers() {
         return customerRepository.findAll().stream()
                 .filter(ActCustomers::isActive)
-                .map(ActCustomers::getCustomerId)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     private void logTransaction(int userId, int eventId, String userType, int ticketCount) {

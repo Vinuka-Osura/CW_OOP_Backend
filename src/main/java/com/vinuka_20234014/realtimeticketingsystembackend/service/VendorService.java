@@ -1,5 +1,8 @@
 package com.vinuka_20234014.realtimeticketingsystembackend.service;
 
+import com.vinuka_20234014.realtimeticketingsystembackend.entity.ActCustomers;
+import com.vinuka_20234014.realtimeticketingsystembackend.entity.ActVendors;
+
 import java.util.List;
 
 public interface VendorService {
@@ -10,6 +13,6 @@ public interface VendorService {
 
     void stopVendorById(int vendorId);
 
-    List<Integer> getActiveVendorIds();
+    List<ActVendors> getActiveVendors();
 
 }

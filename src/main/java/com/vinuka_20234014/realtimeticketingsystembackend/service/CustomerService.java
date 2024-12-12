@@ -1,5 +1,7 @@
 package com.vinuka_20234014.realtimeticketingsystembackend.service;
 
+import com.vinuka_20234014.realtimeticketingsystembackend.entity.ActCustomers;
+
 import java.util.List;
 
 public interface CustomerService {
@@ -10,6 +12,6 @@ public interface CustomerService {
 
     void stopCustomerById(int customerId);
 
-    List<Integer> getActiveCustomerIds();
+    List<ActCustomers> getActiveCustomers();
 
 }

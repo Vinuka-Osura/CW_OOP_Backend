@@ -18,8 +18,12 @@ public class SystemConfiguration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int totalTickets; // Total available tickets
-    private int ticketReleaseRate; // Tickets released per vendor thread
-    private int customerRetrievalRate; // Tickets purchased per customer thread
-    private int maxTicketCapacity; // Maximum tickets in the system
+    private int totalTickets;
+
+    private int ticketReleaseRate;
+
+    private int customerRetrievalRate;
+
+    private int maxTicketCapacity;
+
 }

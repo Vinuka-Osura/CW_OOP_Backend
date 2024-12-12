@@ -1,5 +1,6 @@
 package com.vinuka_20234014.realtimeticketingsystembackend.controller;
 
+import com.vinuka_20234014.realtimeticketingsystembackend.entity.ActCustomers;
 import com.vinuka_20234014.realtimeticketingsystembackend.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,8 @@ public class CustomerController {
         return "Customer " + customerId + " started.";
     }
 
-    @PostMapping("/stop/{customerId}")
-    public String stopCustomer(@PathVariable int customerId) {
+    @PostMapping("/stop")
+    public String stopCustomer(@RequestParam int customerId) {
         customerService.stopCustomerById(customerId);
         return "Customer " + customerId + " stopped.";
     }
@@ -33,8 +34,8 @@ public class CustomerController {
     }
 
     @GetMapping("/list")
-    public List<Integer> listActiveCustomers() {
-        return customerService.getActiveCustomerIds();
+    public List<ActCustomers> listActiveCustomers() {
+        return customerService.getActiveCustomers();
     }
 }
 

@@ -1,9 +1,6 @@
 package com.vinuka_20234014.realtimeticketingsystembackend.service.impl;
 
-import com.vinuka_20234014.realtimeticketingsystembackend.entity.ActVendors;
-import com.vinuka_20234014.realtimeticketingsystembackend.entity.Event;
-import com.vinuka_20234014.realtimeticketingsystembackend.entity.SystemConfiguration;
-import com.vinuka_20234014.realtimeticketingsystembackend.entity.Transaction;
+import com.vinuka_20234014.realtimeticketingsystembackend.entity.*;
 import com.vinuka_20234014.realtimeticketingsystembackend.repository.ActVendorRepository;
 import com.vinuka_20234014.realtimeticketingsystembackend.repository.ConfigurationRepository;
 import com.vinuka_20234014.realtimeticketingsystembackend.repository.EventRepository;
@@ -19,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VendorServiceImpl implements VendorService {
@@ -81,11 +79,10 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public List<Integer> getActiveVendorIds() {
+    public List<ActVendors> getActiveVendors() {
         return vendorRepository.findAll().stream()
                 .filter(ActVendors::isActive)
-                .map(ActVendors::getVendorId)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
